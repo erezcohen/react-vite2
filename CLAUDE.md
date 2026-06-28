@@ -101,11 +101,11 @@ Uses Tailwind CSS v4 with custom configuration. The project includes:
 
 **Adding / Editiing Component Unit Tests**:
 
-When needing to edit or add new unit tests refer to @.claude/commands/create_unit_tests.md
+When needing to edit or add new unit tests refer to `@.claude/commands/create_unit_tests.md`
 
 **Adding / Editing Playwright E2E Test**:
 
-When needing to edit or add new Playwright E2E Tests refer to @.claude/commands/create_e2e_tests.md
+When needing to edit or add new Playwright E2E Tests refer to `@.claude/commands/create_e2e_tests.md`
 
 Whenever adding new tests that require data from the backend to be mocked, use Mock Service Worker (mswjs.io).
 

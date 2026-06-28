@@ -36,3 +36,7 @@ coverage
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Claude
+.claude/worktrees/
+
