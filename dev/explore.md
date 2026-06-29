@@ -70,9 +70,11 @@ This is a modern **React 19 + Vite + TypeScript** starter template with comprehe
 ## Entry Points & Application Flow
 
 ### HTML Entry Point
+
 `index.html` — Single-page app root with `<div id="root">` mount point. Imports `main.tsx` as ES module.
 
 ### Application Initialization
+
 1. `main.tsx` — Creates React root and mounts `App.tsx` in strict mode
 2. `App.tsx` — Wraps the app with:
    - `ThemeProvider` — Manages light/dark mode state
@@ -102,26 +104,28 @@ All pages are wrapped by `AppLayout`, which provides consistent header, footer, 
 
 ### Layout Components
 
-| Component | Purpose |
-|-----------|---------|
-| `app-layout.tsx` | Main layout wrapper with header/footer and `<Outlet />` for route content |
-| `app-header.tsx` | Sticky top navigation — displays menu items, user avatar dropdown, logo |
+| Component         | Purpose                                                                       |
+| ----------------- | ----------------------------------------------------------------------------- |
+| `app-layout.tsx`  | Main layout wrapper with header/footer and `<Outlet />` for route content     |
+| `app-header.tsx`  | Sticky top navigation — displays menu items, user avatar dropdown, logo       |
 | `app-sidebar.tsx` | Mobile-only navigation (hidden on md+ breakpoint) — hamburger menu in popover |
-| `app-footer.tsx` | Footer container with theme toggle |
-| `app-logo.tsx` | Brand logo linked to home |
-| `page-header.tsx` | Reusable section header component for pages |
+| `app-footer.tsx`  | Footer container with theme toggle                                            |
+| `app-logo.tsx`    | Brand logo linked to home                                                     |
+| `page-header.tsx` | Reusable section header component for pages                                   |
 
 ### Navigation & Menu
 
 `config/menu.ts` — Centralized menu structure (TypeScript):
+
 ```typescript
 mainMenu: [
   { title: 'Dashboard', url: '/', icon: Gauge },
   { title: 'Sample Page', url: '/sample', icon: Files },
-]
+];
 ```
 
 Used by:
+
 - `app-header.tsx` — Renders desktop navigation (hidden on mobile)
 - `app-sidebar.tsx` — Renders mobile popover menu
 
@@ -130,6 +134,7 @@ Supports nested menu items with dropdowns.
 ### UI Components (`components/ui/`)
 
 Pre-built shadcn/ui components using Radix UI primitives:
+
 - `button.tsx` — Styled button with CVA variants (default, destructive, outline, secondary, ghost, link)
 - `card.tsx` — Card container with header/content areas
 - `avatar.tsx` — User avatar with image/fallback
@@ -159,6 +164,7 @@ CSS variables defined in `index.css` with light/dark variants using OKLch color 
 ### Custom Hooks
 
 `hooks/use-mobile.ts` — Reactive mobile breakpoint detection:
+
 - Triggers on window resize
 - Compares `innerWidth` against 768px breakpoint
 - Used to conditionally show sidebar vs. header nav
@@ -168,21 +174,25 @@ CSS variables defined in `index.css` with light/dark variants using OKLch color 
 ## Configuration & Build
 
 ### TypeScript
+
 - Strict mode enabled
 - Path alias: `@/*` → `./src/*`
 - Target: ES2020, Module: ESNext
 
 ### Vite (`vite.config.ts`)
+
 - Plugins: React + Tailwind CSS Vite plugin
 - Alias: `@` → `./src`
 - Base URL configurable via `VITE_BASE_URL` env var
 
 ### Vitest (`vitest.config.ts`)
+
 - Environment: jsdom
 - Setup files: `src/test/setup.ts` (mocks localStorage, matchMedia)
 - Globals enabled
 
 ### Playwright (`playwright.config.ts`)
+
 - Test directory: `./tests`
 - Base URL: `http://localhost:5173`
 - Browser: Chromium
@@ -195,6 +205,7 @@ CSS variables defined in `index.css` with light/dark variants using OKLch color 
 ### Unit Testing (Vitest + React Testing Library)
 
 `src/test/test-utils.tsx` — Custom render wrapper:
+
 - Wraps components with `BrowserRouter` + `ThemeProvider`
 - Mocks `window.localStorage` and `window.matchMedia`
 - Re-exports all `@testing-library/react` functions
@@ -208,31 +219,34 @@ CSS variables defined in `index.css` with light/dark variants using OKLch color 
 
 ## Development Scripts
 
-| Script | Purpose |
-|--------|---------|
-| `npm run dev` | Start Vite dev server (localhost:5173) |
-| `npm run build` | TypeScript check + Vite production build |
-| `npm run lint` | Run ESLint |
-| `npm run format` | Format with Prettier |
-| `npm run typecheck` | TypeScript compiler check |
-| `npm test` | Vitest watch mode |
-| `npm run test:run` | Run tests once (CI) |
-| `npm run test:coverage` | Coverage report |
-| `npm run test:e2e` | Playwright headless |
-| `npm run test:e2e:ui` | Playwright UI mode |
-| `npm run test:e2e:headed` | Playwright with visible browser |
+| Script                    | Purpose                                  |
+| ------------------------- | ---------------------------------------- |
+| `npm run dev`             | Start Vite dev server (localhost:5173)   |
+| `npm run build`           | TypeScript check + Vite production build |
+| `npm run lint`            | Run ESLint                               |
+| `npm run format`          | Format with Prettier                     |
+| `npm run typecheck`       | TypeScript compiler check                |
+| `npm test`                | Vitest watch mode                        |
+| `npm run test:run`        | Run tests once (CI)                      |
+| `npm run test:coverage`   | Coverage report                          |
+| `npm run test:e2e`        | Playwright headless                      |
+| `npm run test:e2e:ui`     | Playwright UI mode                       |
+| `npm run test:e2e:headed` | Playwright with visible browser          |
 
 ---
 
 ## Key Dependencies
 
 ### Core
+
 - `react` 19, `react-dom` 19, `react-router-dom` 7
 
 ### UI & Styling
+
 - `tailwindcss` 4, `@radix-ui/*`, `class-variance-authority`, `tailwind-merge`, `clsx`, `lucide-react`
 
 ### Dev Tools
+
 - `vite` 6, `typescript` 5.7, `vitest` 3, `@testing-library/react` 16, `@playwright/test` 1.54, `eslint` 9, `prettier` 3
 
 ---

@@ -1,25 +1,8 @@
 {
   "enableAllProjectMcpServers": true,
-  "enabledMcpjsonServers": ["context7"],
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Edit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "output=$(cd /home/erez/repos/react-vite2 && npm run typecheck 2>&1); status=$?; [ $status -eq 0 ] || TS_OUTPUT=\"$output\" node -e \"console.log(JSON.stringify({decision:'block',reason:'TypeScript errors found. Fix all errors before proceeding:\\n\\n'+process.env.TS_OUTPUT}))\"",
-            "statusMessage": "Checking TypeScript..."
-          },
-          {
-            "type": "command",
-            "command": "cd /home/erez/repos/react-vite2 && npm run format",
-            "statusMessage": "Running Prettier..."
-          }
-        ]
-      }
-    ]
-  },
+  "enabledMcpjsonServers": [
+    "context7"
+  ],
   "permissions": {
     "allow": [
       "Bash(afplay:*)",
@@ -50,5 +33,18 @@
       "WebFetch"
     ],
     "deny": []
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay /System/Library/Sounds/Glass.aiff"
+          }
+        ]
+      }
+    ]
   }
 }

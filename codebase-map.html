@@ -1,66 +1,416 @@
-<!DOCTYPE html>
-<html><head>
-  <meta charset="utf-8"><title>Codebase Explorer</title>
-  <style>
-    body { font: 14px/1.5 system-ui, sans-serif; margin: 0; background: #1a1a2e; color: #eee; }
-    .container { display: flex; height: 100vh; }
-    .sidebar { width: 280px; background: #252542; padding: 20px; border-right: 1px solid #3d3d5c; overflow-y: auto; flex-shrink: 0; }
-    .main { flex: 1; padding: 20px; overflow-y: auto; }
-    h1 { margin: 0 0 10px 0; font-size: 18px; }
-    h2 { margin: 20px 0 10px 0; font-size: 14px; color: #888; text-transform: uppercase; }
-    .stat { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #3d3d5c; }
-    .stat-value { font-weight: bold; }
-    .bar-row { display: flex; align-items: center; margin: 6px 0; }
-    .bar-label { width: 55px; font-size: 12px; color: #aaa; }
-    .bar { height: 18px; border-radius: 3px; }
-    .bar-pct { margin-left: 8px; font-size: 12px; color: #666; }
-    .tree { list-style: none; padding-left: 20px; }
-    details { cursor: pointer; }
-    summary { padding: 4px 8px; border-radius: 4px; }
-    summary:hover { background: #2d2d44; }
-    .folder { color: #ffd700; }
-    .file { display: flex; align-items: center; padding: 4px 8px; border-radius: 4px; }
-    .file:hover { background: #2d2d44; }
-    .size { color: #888; margin-left: auto; font-size: 12px; }
-    .dot { width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; }
-  </style>
-</head><body>
-  <div class="container">
-    <div class="sidebar">
-      <h1>📊 Summary</h1>
-      <div class="stat"><span>Files</span><span class="stat-value">58</span></div>
-      <div class="stat"><span>Directories</span><span class="stat-value">17</span></div>
-      <div class="stat"><span>Total size</span><span class="stat-value">390.5 KB</span></div>
-      <div class="stat"><span>File types</span><span class="stat-value">10</span></div>
-      <h2>By file type</h2>
-      <div class="bar-row"><span class="bar-label">.json</span><div class="bar" style="width:62.473802938072396%;background:#6b7280"></div><span class="bar-pct">62.5%</span></div><div class="bar-row"><span class="bar-label">.tsx</span><div class="bar" style="width:18.286924727525548%;background:#3178c6"></div><span class="bar-pct">18.3%</span></div><div class="bar-row"><span class="bar-label">.ts</span><div class="bar" style="width:7.052824280862515%;background:#3178c6"></div><span class="bar-pct">7.1%</span></div><div class="bar-row"><span class="bar-label">.jpg</span><div class="bar" style="width:5.928914053629574%;background:#6b7280"></div><span class="bar-pct">5.9%</span></div><div class="bar-row"><span class="bar-label">.md</span><div class="bar" style="width:4.578671214993473%;background:#083fa1"></div><span class="bar-pct">4.6%</span></div><div class="bar-row"><span class="bar-label">.css</span><div class="bar" style="width:1.0243738964722124%;background:#264de4"></div><span class="bar-pct">1.0%</span></div><div class="bar-row"><span class="bar-label">(no ext)</span><div class="bar" style="width:0.2653468516008343%;background:#6b7280"></div><span class="bar-pct">0.3%</span></div><div class="bar-row"><span class="bar-label">.js</span><div class="bar" style="width:0.2628459387676502%;background:#f7df1e"></div><span class="bar-pct">0.3%</span></div>
-    </div>
-    <div class="main">
-      <h1>📁 react-vite2</h1>
-      <ul class="tree" id="root"></ul>
-    </div>
-  </div>
-  <script>
-    const data = {"name": "react-vite2", "children": [{"name": "CLAUDE.md", "size": 8947, "ext": ".md"}, {"name": "LICENSE", "size": 1061, "ext": "(no ext)"}, {"name": "README.md", "size": 1841, "ext": ".md"}, {"name": "components.json", "size": 426, "ext": ".json"}, {"name": "dev", "children": [{"name": "plans", "children": [{"name": "add_prettier.md", "size": 2624, "ext": ".md"}, {"name": "testing-setup-plan.md", "size": 4896, "ext": ".md"}], "size": 7520}], "size": 7520}, {"name": "eslint.config.js", "size": 1051, "ext": ".js"}, {"name": "index.html", "size": 370, "ext": ".html"}, {"name": "package-lock.json", "size": 245690, "ext": ".json"}, {"name": "package.json", "size": 2239, "ext": ".json"}, {"name": "playwright.config.ts", "size": 2199, "ext": ".ts"}, {"name": "public", "children": [{"name": "avatars", "children": [{"name": "shadcn.jpg", "size": 23707, "ext": ".jpg"}], "size": 23707}, {"name": "favicon.svg", "size": 135, "ext": ".svg"}], "size": 23842}, {"name": "src", "children": [{"name": "App.tsx", "size": 294, "ext": ".tsx"}, {"name": "Router.tsx", "size": 420, "ext": ".tsx"}, {"name": "components", "children": [{"name": "__tests__", "children": [{"name": "app-footer.test.tsx", "size": 1475, "ext": ".tsx"}, {"name": "app-header.test.tsx", "size": 1380, "ext": ".tsx"}, {"name": "mode-toggle.test.tsx", "size": 4143, "ext": ".tsx"}], "size": 6998}, {"name": "app-footer.tsx", "size": 306, "ext": ".tsx"}, {"name": "app-header.tsx", "size": 5577, "ext": ".tsx"}, {"name": "app-layout.tsx", "size": 479, "ext": ".tsx"}, {"name": "app-logo.tsx", "size": 402, "ext": ".tsx"}, {"name": "app-sidebar.tsx", "size": 4693, "ext": ".tsx"}, {"name": "icons", "children": [{"name": "github.tsx", "size": 912, "ext": ".tsx"}], "size": 912}, {"name": "mode-toggle.tsx", "size": 1383, "ext": ".tsx"}, {"name": "page-header.tsx", "size": 860, "ext": ".tsx"}, {"name": "ui", "children": [{"name": "avatar.tsx", "size": 1090, "ext": ".tsx"}, {"name": "button.tsx", "size": 2197, "ext": ".tsx"}, {"name": "card.tsx", "size": 1999, "ext": ".tsx"}, {"name": "collapsible.tsx", "size": 791, "ext": ".tsx"}, {"name": "dropdown-menu.tsx", "size": 8294, "ext": ".tsx"}, {"name": "input.tsx", "size": 971, "ext": ".tsx"}, {"name": "popover.tsx", "size": 1629, "ext": ".tsx"}, {"name": "separator.tsx", "size": 710, "ext": ".tsx"}, {"name": "sheet.tsx", "size": 4092, "ext": ".tsx"}, {"name": "sidebar.tsx", "size": 21793, "ext": ".tsx"}, {"name": "skeleton.tsx", "size": 279, "ext": ".tsx"}, {"name": "tooltip.tsx", "size": 1900, "ext": ".tsx"}], "size": 45745}], "size": 67355}, {"name": "config", "children": [{"name": "menu.ts", "size": 391, "ext": ".ts"}], "size": 391}, {"name": "contexts", "children": [{"name": "ThemeContext.tsx", "size": 1469, "ext": ".tsx"}], "size": 1469}, {"name": "hooks", "children": [{"name": "use-mobile.ts", "size": 584, "ext": ".ts"}], "size": 584}, {"name": "index.css", "size": 4096, "ext": ".css"}, {"name": "lib", "children": [{"name": "utils.ts", "size": 169, "ext": ".ts"}], "size": 169}, {"name": "main.tsx", "size": 230, "ext": ".tsx"}, {"name": "pages", "children": [{"name": "Dashboard.tsx", "size": 596, "ext": ".tsx"}, {"name": "Sample.tsx", "size": 512, "ext": ".tsx"}, {"name": "__tests__", "children": [{"name": "dashboard.test.tsx", "size": 873, "ext": ".tsx"}], "size": 873}], "size": 1981}, {"name": "test", "children": [{"name": "setup.ts", "size": 36, "ext": ".ts"}, {"name": "test-utils.tsx", "size": 1372, "ext": ".tsx"}], "size": 1408}, {"name": "vite-env.d.ts", "size": 139, "ext": ".ts"}], "size": 78536}, {"name": "tests", "children": [{"name": "dashboard.spec.ts", "size": 3873, "ext": ".ts"}, {"name": "demo-todo-app.spec_.ts", "size": 16144, "ext": ".ts"}, {"name": "sample-page.spec.ts", "size": 3499, "ext": ".ts"}], "size": 23516}, {"name": "tsconfig.app.json", "size": 639, "ext": ".json"}, {"name": "tsconfig.json", "size": 213, "ext": ".json"}, {"name": "tsconfig.node.json", "size": 597, "ext": ".json"}, {"name": "vite.config.ts", "size": 463, "ext": ".ts"}, {"name": "vitest.config.ts", "size": 704, "ext": ".ts"}], "size": 399854};
-    const colors = {".js": "#f7df1e", ".ts": "#3178c6", ".py": "#3776ab", ".go": "#00add8", ".rs": "#dea584", ".rb": "#cc342d", ".css": "#264de4", ".html": "#e34c26", ".json": "#6b7280", ".md": "#083fa1", ".yaml": "#cb171e", ".yml": "#cb171e", ".mdx": "#083fa1", ".tsx": "#3178c6", ".jsx": "#61dafb", ".sh": "#4eaa25"};
-    function fmt(b) { if (b < 1024) return b + ' B'; if (b < 1048576) return (b/1024).toFixed(1) + ' KB'; return (b/1048576).toFixed(1) + ' MB'; }
-    function esc(s) { return s.replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
-    function render(node, parent) {
-      if (node.children) {
-        const det = document.createElement('details');
-        det.open = parent === document.getElementById('root');
-        det.innerHTML = `<summary><span class="folder">📁 ${esc(node.name)}</span><span class="size">${fmt(node.size)}</span></summary>`;
-        const ul = document.createElement('ul'); ul.className = 'tree';
-        node.children.sort((a,b) => (b.children?1:0)-(a.children?1:0) || a.name.localeCompare(b.name));
-        node.children.forEach(c => render(c, ul));
-        det.appendChild(ul);
-        const li = document.createElement('li'); li.appendChild(det); parent.appendChild(li);
-      } else {
-        const li = document.createElement('li'); li.className = 'file';
-        li.innerHTML = `<span class="dot" style="background:${colors[node.ext]||'#6b7280'}"></span>${esc(node.name)}<span class="size">${fmt(node.size)}</span>`;
-        parent.appendChild(li);
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Codebase Explorer</title>
+    <style>
+      body {
+        font:
+          14px/1.5 system-ui,
+          sans-serif;
+        margin: 0;
+        background: #1a1a2e;
+        color: #eee;
       }
-    }
-    data.children.forEach(c => render(c, document.getElementById('root')));
-  </script>
-</body></html>
+      .container {
+        display: flex;
+        height: 100vh;
+      }
+      .sidebar {
+        width: 280px;
+        background: #252542;
+        padding: 20px;
+        border-right: 1px solid #3d3d5c;
+        overflow-y: auto;
+        flex-shrink: 0;
+      }
+      .main {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+      }
+      h1 {
+        margin: 0 0 10px 0;
+        font-size: 18px;
+      }
+      h2 {
+        margin: 20px 0 10px 0;
+        font-size: 14px;
+        color: #888;
+        text-transform: uppercase;
+      }
+      .stat {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid #3d3d5c;
+      }
+      .stat-value {
+        font-weight: bold;
+      }
+      .bar-row {
+        display: flex;
+        align-items: center;
+        margin: 6px 0;
+      }
+      .bar-label {
+        width: 55px;
+        font-size: 12px;
+        color: #aaa;
+      }
+      .bar {
+        height: 18px;
+        border-radius: 3px;
+      }
+      .bar-pct {
+        margin-left: 8px;
+        font-size: 12px;
+        color: #666;
+      }
+      .tree {
+        list-style: none;
+        padding-left: 20px;
+      }
+      details {
+        cursor: pointer;
+      }
+      summary {
+        padding: 4px 8px;
+        border-radius: 4px;
+      }
+      summary:hover {
+        background: #2d2d44;
+      }
+      .folder {
+        color: #ffd700;
+      }
+      .file {
+        display: flex;
+        align-items: center;
+        padding: 4px 8px;
+        border-radius: 4px;
+      }
+      .file:hover {
+        background: #2d2d44;
+      }
+      .size {
+        color: #888;
+        margin-left: auto;
+        font-size: 12px;
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        margin-right: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="sidebar">
+        <h1>📊 Summary</h1>
+        <div class="stat">
+          <span>Files</span><span class="stat-value">58</span>
+        </div>
+        <div class="stat">
+          <span>Directories</span><span class="stat-value">17</span>
+        </div>
+        <div class="stat">
+          <span>Total size</span><span class="stat-value">390.5 KB</span>
+        </div>
+        <div class="stat">
+          <span>File types</span><span class="stat-value">10</span>
+        </div>
+        <h2>By file type</h2>
+        <div class="bar-row">
+          <span class="bar-label">.json</span>
+          <div
+            class="bar"
+            style="width: 62.473802938072396%; background: #6b7280"
+          ></div>
+          <span class="bar-pct">62.5%</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">.tsx</span>
+          <div
+            class="bar"
+            style="width: 18.286924727525548%; background: #3178c6"
+          ></div>
+          <span class="bar-pct">18.3%</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">.ts</span>
+          <div
+            class="bar"
+            style="width: 7.052824280862515%; background: #3178c6"
+          ></div>
+          <span class="bar-pct">7.1%</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">.jpg</span>
+          <div
+            class="bar"
+            style="width: 5.928914053629574%; background: #6b7280"
+          ></div>
+          <span class="bar-pct">5.9%</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">.md</span>
+          <div
+            class="bar"
+            style="width: 4.578671214993473%; background: #083fa1"
+          ></div>
+          <span class="bar-pct">4.6%</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">.css</span>
+          <div
+            class="bar"
+            style="width: 1.0243738964722124%; background: #264de4"
+          ></div>
+          <span class="bar-pct">1.0%</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">(no ext)</span>
+          <div
+            class="bar"
+            style="width: 0.2653468516008343%; background: #6b7280"
+          ></div>
+          <span class="bar-pct">0.3%</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">.js</span>
+          <div
+            class="bar"
+            style="width: 0.2628459387676502%; background: #f7df1e"
+          ></div>
+          <span class="bar-pct">0.3%</span>
+        </div>
+      </div>
+      <div class="main">
+        <h1>📁 react-vite2</h1>
+        <ul class="tree" id="root"></ul>
+      </div>
+    </div>
+    <script>
+      const data = {
+        name: 'react-vite2',
+        children: [
+          { name: 'CLAUDE.md', size: 8947, ext: '.md' },
+          { name: 'LICENSE', size: 1061, ext: '(no ext)' },
+          { name: 'README.md', size: 1841, ext: '.md' },
+          { name: 'components.json', size: 426, ext: '.json' },
+          {
+            name: 'dev',
+            children: [
+              {
+                name: 'plans',
+                children: [
+                  { name: 'add_prettier.md', size: 2624, ext: '.md' },
+                  { name: 'testing-setup-plan.md', size: 4896, ext: '.md' },
+                ],
+                size: 7520,
+              },
+            ],
+            size: 7520,
+          },
+          { name: 'eslint.config.js', size: 1051, ext: '.js' },
+          { name: 'index.html', size: 370, ext: '.html' },
+          { name: 'package-lock.json', size: 245690, ext: '.json' },
+          { name: 'package.json', size: 2239, ext: '.json' },
+          { name: 'playwright.config.ts', size: 2199, ext: '.ts' },
+          {
+            name: 'public',
+            children: [
+              {
+                name: 'avatars',
+                children: [{ name: 'shadcn.jpg', size: 23707, ext: '.jpg' }],
+                size: 23707,
+              },
+              { name: 'favicon.svg', size: 135, ext: '.svg' },
+            ],
+            size: 23842,
+          },
+          {
+            name: 'src',
+            children: [
+              { name: 'App.tsx', size: 294, ext: '.tsx' },
+              { name: 'Router.tsx', size: 420, ext: '.tsx' },
+              {
+                name: 'components',
+                children: [
+                  {
+                    name: '__tests__',
+                    children: [
+                      { name: 'app-footer.test.tsx', size: 1475, ext: '.tsx' },
+                      { name: 'app-header.test.tsx', size: 1380, ext: '.tsx' },
+                      { name: 'mode-toggle.test.tsx', size: 4143, ext: '.tsx' },
+                    ],
+                    size: 6998,
+                  },
+                  { name: 'app-footer.tsx', size: 306, ext: '.tsx' },
+                  { name: 'app-header.tsx', size: 5577, ext: '.tsx' },
+                  { name: 'app-layout.tsx', size: 479, ext: '.tsx' },
+                  { name: 'app-logo.tsx', size: 402, ext: '.tsx' },
+                  { name: 'app-sidebar.tsx', size: 4693, ext: '.tsx' },
+                  {
+                    name: 'icons',
+                    children: [{ name: 'github.tsx', size: 912, ext: '.tsx' }],
+                    size: 912,
+                  },
+                  { name: 'mode-toggle.tsx', size: 1383, ext: '.tsx' },
+                  { name: 'page-header.tsx', size: 860, ext: '.tsx' },
+                  {
+                    name: 'ui',
+                    children: [
+                      { name: 'avatar.tsx', size: 1090, ext: '.tsx' },
+                      { name: 'button.tsx', size: 2197, ext: '.tsx' },
+                      { name: 'card.tsx', size: 1999, ext: '.tsx' },
+                      { name: 'collapsible.tsx', size: 791, ext: '.tsx' },
+                      { name: 'dropdown-menu.tsx', size: 8294, ext: '.tsx' },
+                      { name: 'input.tsx', size: 971, ext: '.tsx' },
+                      { name: 'popover.tsx', size: 1629, ext: '.tsx' },
+                      { name: 'separator.tsx', size: 710, ext: '.tsx' },
+                      { name: 'sheet.tsx', size: 4092, ext: '.tsx' },
+                      { name: 'sidebar.tsx', size: 21793, ext: '.tsx' },
+                      { name: 'skeleton.tsx', size: 279, ext: '.tsx' },
+                      { name: 'tooltip.tsx', size: 1900, ext: '.tsx' },
+                    ],
+                    size: 45745,
+                  },
+                ],
+                size: 67355,
+              },
+              {
+                name: 'config',
+                children: [{ name: 'menu.ts', size: 391, ext: '.ts' }],
+                size: 391,
+              },
+              {
+                name: 'contexts',
+                children: [
+                  { name: 'ThemeContext.tsx', size: 1469, ext: '.tsx' },
+                ],
+                size: 1469,
+              },
+              {
+                name: 'hooks',
+                children: [{ name: 'use-mobile.ts', size: 584, ext: '.ts' }],
+                size: 584,
+              },
+              { name: 'index.css', size: 4096, ext: '.css' },
+              {
+                name: 'lib',
+                children: [{ name: 'utils.ts', size: 169, ext: '.ts' }],
+                size: 169,
+              },
+              { name: 'main.tsx', size: 230, ext: '.tsx' },
+              {
+                name: 'pages',
+                children: [
+                  { name: 'Dashboard.tsx', size: 596, ext: '.tsx' },
+                  { name: 'Sample.tsx', size: 512, ext: '.tsx' },
+                  {
+                    name: '__tests__',
+                    children: [
+                      { name: 'dashboard.test.tsx', size: 873, ext: '.tsx' },
+                    ],
+                    size: 873,
+                  },
+                ],
+                size: 1981,
+              },
+              {
+                name: 'test',
+                children: [
+                  { name: 'setup.ts', size: 36, ext: '.ts' },
+                  { name: 'test-utils.tsx', size: 1372, ext: '.tsx' },
+                ],
+                size: 1408,
+              },
+              { name: 'vite-env.d.ts', size: 139, ext: '.ts' },
+            ],
+            size: 78536,
+          },
+          {
+            name: 'tests',
+            children: [
+              { name: 'dashboard.spec.ts', size: 3873, ext: '.ts' },
+              { name: 'demo-todo-app.spec_.ts', size: 16144, ext: '.ts' },
+              { name: 'sample-page.spec.ts', size: 3499, ext: '.ts' },
+            ],
+            size: 23516,
+          },
+          { name: 'tsconfig.app.json', size: 639, ext: '.json' },
+          { name: 'tsconfig.json', size: 213, ext: '.json' },
+          { name: 'tsconfig.node.json', size: 597, ext: '.json' },
+          { name: 'vite.config.ts', size: 463, ext: '.ts' },
+          { name: 'vitest.config.ts', size: 704, ext: '.ts' },
+        ],
+        size: 399854,
+      };
+      const colors = {
+        '.js': '#f7df1e',
+        '.ts': '#3178c6',
+        '.py': '#3776ab',
+        '.go': '#00add8',
+        '.rs': '#dea584',
+        '.rb': '#cc342d',
+        '.css': '#264de4',
+        '.html': '#e34c26',
+        '.json': '#6b7280',
+        '.md': '#083fa1',
+        '.yaml': '#cb171e',
+        '.yml': '#cb171e',
+        '.mdx': '#083fa1',
+        '.tsx': '#3178c6',
+        '.jsx': '#61dafb',
+        '.sh': '#4eaa25',
+      };
+      function fmt(b) {
+        if (b < 1024) return b + ' B';
+        if (b < 1048576) return (b / 1024).toFixed(1) + ' KB';
+        return (b / 1048576).toFixed(1) + ' MB';
+      }
+      function esc(s) {
+        return s.replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              '&': '&amp;',
+              '<': '&lt;',
+              '>': '&gt;',
+              '"': '&quot;',
+              "'": '&#39;',
+            })[c]
+        );
+      }
+      function render(node, parent) {
+        if (node.children) {
+          const det = document.createElement('details');
+          det.open = parent === document.getElementById('root');
+          det.innerHTML = `<summary><span class="folder">📁 ${esc(node.name)}</span><span class="size">${fmt(node.size)}</span></summary>`;
+          const ul = document.createElement('ul');
+          ul.className = 'tree';
+          node.children.sort(
+            (a, b) =>
+              (b.children ? 1 : 0) - (a.children ? 1 : 0) ||
+              a.name.localeCompare(b.name)
+          );
+          node.children.forEach((c) => render(c, ul));
+          det.appendChild(ul);
+          const li = document.createElement('li');
+          li.appendChild(det);
+          parent.appendChild(li);
+        } else {
+          const li = document.createElement('li');
+          li.className = 'file';
+          li.innerHTML = `<span class="dot" style="background:${colors[node.ext] || '#6b7280'}"></span>${esc(node.name)}<span class="size">${fmt(node.size)}</span>`;
+          parent.appendChild(li);
+        }
+      }
+      data.children.forEach((c) => render(c, document.getElementById('root')));
+    </script>
+  </body>
+</html>
