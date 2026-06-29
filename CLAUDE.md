@@ -23,11 +23,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### End-to-End Tests (Playwright)
 
-- `npm run test:e2e` - Run Playwright tests in headless mode
+- `npm run test:e2e` - Run Playwright tests in headless mode (requires dev server running)
 - `npm run test:e2e:ui` - Run Playwright tests with interactive UI
 - `npm run test:e2e:debug` - Run Playwright tests in debug mode with inspector
 - `npm run test:e2e:headed` - Run Playwright tests in headed mode (visible browser)
 - `npm run test:e2e:report` - Show detailed HTML test report
+- `npm run test:e2e:install` - Install Playwright browsers (first-time setup)
+
+**Note**: Playwright's webServer is not configured to auto-start. Run `npm run dev` in a separate terminal before running E2E tests.
+
+### Running a Single Test
+
+- Vitest: `npx vitest run src/path/to/file.test.tsx`
+- Playwright: `npx playwright test tests/dashboard.spec.ts`
 
 ## Architecture Overview
 
@@ -84,12 +92,14 @@ Uses Tailwind CSS v4 with custom configuration. The project includes:
 ### Environment Variables
 
 - `VITE_APP_NAME` - Application name (fallback: "Sample App")
+- `VITE_BASE_URL` - Base path for deployments to a sub-path (e.g. `/app`)
+- `VITE_USE_HASH_ROUTE` - Enable hash-based routing (`true`/`false`)
 
 ### Testing Architecture
 
 **Unit Tests**:
 
-- Vitest + React Testing Library for coponent testing
+- Vitest + React Testing Library for component testing
 - Unit Test files use `.test.ts` or `.test.tsx` suffix and are located in `__tests__/` directories next to source files
 - `src/test/setup.ts` - Global unit test configuration with jest-dom matchers
 - `src/test/test-utils.tsx` - Custom render function with providers (Router, Theme)
@@ -99,7 +109,7 @@ Uses Tailwind CSS v4 with custom configuration. The project includes:
 - Playwright for E2E testing
 - E2E test files use `.spec.ts` suffix and are located in the `tests/` directory
 
-**Adding / Editiing Component Unit Tests**:
+**Adding / Editing Component Unit Tests**:
 
 When needing to edit or add new unit tests refer to `@.claude/commands/create_unit_tests.md`
 
@@ -176,28 +186,6 @@ This project uses Prettier for code formatting integrated with ESLint. Prettier 
 - Add trailing commas for ES5 compatibility
 
 You can customize these settings in `.prettierrc.json`.
-
-## Development Methodology
-
-### Approach
-
-1. **System 2 Thinking**: Approach problems with analytical rigor. Break down requirements into smaller, manageable parts and thoroughly consider each step before implementation.
-
-2. **Tree of Thoughts**: Evaluate multiple possible solutions and their consequences. Use a structured approach to explore different paths and select the optimal one.
-
-3. **Iterative Refinement**: Before finalizing code, consider improvements, edge cases, and optimizations. Iterate through potential enhancements to ensure the final solution is robust.
-
-### Development Process
-
-1. **Deep Dive Analysis**: Begin by conducting thorough analysis of the task, considering technical requirements and constraints.
-
-2. **Planning**: Develop a clear plan that outlines architectural structure and flow of the solution.
-
-3. **Implementation**: Implement the solution step-by-step, ensuring each part adheres to specified best practices.
-
-4. **Review and Optimize**: Perform code review, looking for areas of potential optimization and improvement.
-
-5. **Finalization**: Ensure code meets all requirements, is secure, and is performant.
 
 ## The Development Workflow
 
