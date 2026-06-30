@@ -4,197 +4,92 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Development Commands
 
-- `npm run dev` - Start development server on localhost:5173
-- `npm run build` - Build for production (TypeScript check + Vite build)
-- `npm run typecheck` - Run TypeScript type checking
-- `npm run lint` - Run ESLint
-- `npm run format` - Format code with Prettier
-- `npm run format:check` - Check code formatting without fixing
-- `npm run preview` - Preview production build locally
+- `npm run dev` - Start dev server on localhost:5173
+- `npm run build` - TypeScript check + Vite build
+- `npm run typecheck` - TypeScript type checking only
+- `npm run lint` - ESLint (includes Prettier check)
+- `npm run format` - Format with Prettier
 
 ## Testing Commands
 
-### Unit/Integration Tests (Vitest)
+### Unit Tests (Vitest)
 
-- `npm test` - Run tests in watch mode with Vitest
-- `npm run test:run` - Run tests once
-- `npm run test:ui` - Run tests with interactive UI interface
-- `npm run test:coverage` - Run tests with coverage report
+- `npm run test:run` - Run all unit tests once
+- `npx vitest run src/path/to/file.test.tsx` - Run a single test file
 
-### End-to-End Tests (Playwright)
+### E2E Tests (Playwright)
 
-- `npm run test:e2e` - Run Playwright tests in headless mode (requires dev server running)
-- `npm run test:e2e:ui` - Run Playwright tests with interactive UI
-- `npm run test:e2e:debug` - Run Playwright tests in debug mode with inspector
-- `npm run test:e2e:headed` - Run Playwright tests in headed mode (visible browser)
-- `npm run test:e2e:report` - Show detailed HTML test report
-- `npm run test:e2e:install` - Install Playwright browsers (first-time setup)
+- `npm run test:e2e` - Run Playwright tests (requires `npm run dev` running separately)
+- `npx playwright test tests/dashboard.spec.ts` - Run a single spec file
 
-**Note**: Playwright's webServer is not configured to auto-start. Run `npm run dev` in a separate terminal before running E2E tests.
+**Note**: `playwright.config.ts` does not auto-start the dev server. Always start it manually first.
 
-### Running a Single Test
+## Development Workflow
 
-- Vitest: `npx vitest run src/path/to/file.test.tsx`
-- Playwright: `npx playwright test tests/dashboard.spec.ts`
+1. `npm run format` → `npm run lint` → `npm run typecheck` → `npm run test:run`
+2. In TDD mode: tests added for the upcoming change are expected to fail; all others must pass.
+3. Use `npm run test:e2e` for full end-to-end validation.
 
-## Architecture Overview
+## Architecture
 
-This is a React + TypeScript + Vite starter template using shadcn/ui components built on Radix UI primitives.
+### Entry Point and Routing
 
-### Core Architecture
+`main.tsx` → `App.tsx` wraps everything in `ThemeProvider` + `BrowserRouter` → `Router.tsx` declares routes → all routes nest under `AppLayout` (which renders `Outlet`).
 
-**App Entry Point**: `App.tsx` sets up the theme provider and router wrapper using `BrowserRouter` for standard routing.
+`AppLayout` (`src/components/app-layout.tsx`) provides the shell: `AppHeader` at top, a centered max-w-7xl content column, then `AppFooter`. Pages render into the `Outlet`.
 
-**Routing**: `Router.tsx` defines routes using React Router v7. All routes are wrapped in `AppLayout` component which provides header, footer, and main content area.
+Hash-based routing is opt-in via `VITE_USE_HASH_ROUTE=true` — `App.tsx` switches between `BrowserRouter` and `HashRouter` based on this env var.
 
-**Layout System**: `AppLayout` component provides the main application shell with responsive design and proper content spacing.
+### Theme System
 
-**Theme Management**: `ThemeContext.tsx` provides theme switching (light/dark/system) with localStorage persistence. Theme is applied by adding CSS classes to document root.
+`ThemeContext.tsx` uses React 19's `use(ThemeContext)` (not `useContext`) for context consumption. The `useTheme()` hook is the public API. Theme class (`light`/`dark`) is applied directly to `document.documentElement`. Persisted in `localStorage` under key `shadcn-ui-theme`.
 
-**Menu Configuration**: `src/config/menu.ts` - Defines navigation menu items with icons (from Lucide React), titles, and URLs. Menu supports nested items and external links.
+### Path Alias
 
-### Component Architecture
+`@/` maps to `src/`. Use it for all non-relative imports (e.g. `@/components/ui/button`).
 
-**UI Components**: Located in `src/components/ui/` - shadcn/ui components built on Radix UI primitives with Tailwind CSS styling and class-variance-authority for variant management.
+### Navigation Menu
 
-**Layout Components**: `app-header.tsx`, `app-footer.tsx`, `app-sidebar.tsx` provide application shell components.
-
-**Page Components**: Located in `src/pages/` - Feature pages that are routed to. Currently includes Dashboard and Sample pages.
-
-**Tables and Forms**: When adding new tables always use TanStack Table. When adding new forms always use TanStack Form.
-
-### Styling System
-
-Uses Tailwind CSS v4 with custom configuration. The project includes:
-
-- `tailwind-merge` for merging Tailwind classes
-- `tailwindcss-animate` for animations
-- `clsx` for conditional class application
-- CSS custom properties for theme variables
-
-### Build and Deployment
-
-**Development**: Uses Vite with React plugin and Tailwind CSS plugin for fast development.
-
-**Production**: TypeScript compilation followed by Vite build.
-
-### Key Dependencies
-
-- React 19 with TypeScript
-- React Router DOM v7 for routing
-- Radix UI primitives for accessible components
-- Lucide React for icons
-- Tailwind CSS v4 for styling
-- Vite for build tooling
-- Vitest for testing framework
-- React Testing Library for component testing
-
-### Environment Variables
-
-- `VITE_APP_NAME` - Application name (fallback: "Sample App")
-- `VITE_BASE_URL` - Base path for deployments to a sub-path (e.g. `/app`)
-- `VITE_USE_HASH_ROUTE` - Enable hash-based routing (`true`/`false`)
-
-### Testing Architecture
-
-**Unit Tests**:
-
-- Vitest + React Testing Library for component testing
-- Unit Test files use `.test.ts` or `.test.tsx` suffix and are located in `__tests__/` directories next to source files
-- `src/test/setup.ts` - Global unit test configuration with jest-dom matchers
-- `src/test/test-utils.tsx` - Custom render function with providers (Router, Theme)
-
-**E2E Tests**:
-
-- Playwright for E2E testing
-- E2E test files use `.spec.ts` suffix and are located in the `tests/` directory
-
-**Adding / Editing Component Unit Tests**:
-
-When needing to edit or add new unit tests refer to `@.claude/commands/create_unit_tests.md`
-
-**Adding / Editing Playwright E2E Test**:
-
-When needing to edit or add new Playwright E2E Tests refer to `@.claude/commands/create_e2e_tests.md`
-
-Whenever adding new tests that require data from the backend to be mocked, use Mock Service Worker (mswjs.io).
+`src/config/menu.ts` is the single source of truth for sidebar navigation. Each entry has `title`, `url`, `icon` (Lucide), and optional nested `items`. Add entries here when adding new pages.
 
 ### Adding New Pages
 
 1. Create component in `src/pages/`
-2. Add route in `Router.tsx`
-3. Add menu item in `src/config/menu.ts` if needed for navigation
-4. Create test file in `src/pages/__tests__/` for component testing
-5. If the components in the page require data to be fetched from the backend, use Mock Service Worker (mswjs.io) to return sample data.
+2. Add route in `Router.tsx` (nested under the `AppLayout` route)
+3. Add menu entry in `src/config/menu.ts`
+4. Add test in `src/pages/__tests__/`
 
-## Code Style and Structure Guidelines
+### UI Components (shadcn/ui)
 
-### TypeScript and React Best Practices
+Components in `src/components/ui/` are generated by the shadcn CLI — do not edit them by hand if you can help it. Add new ones with:
 
-- Write concise, technical TypeScript code with accurate examples
-- Use functional and declarative programming patterns; avoid classes
-- Favor iteration and modularization over code duplication
-- Use descriptive variable names with auxiliary verbs (e.g., `isLoading`, `hasError`)
-- Structure files with exported components, subcomponents, helpers, static content, and types
-- Use lowercase with dashes for directory names (e.g., `components/auth-wizard`)
+```
+npx shadcn@latest add <component-name>
+```
 
-### Error Handling and Validation
+Style: `new-york`, base color: `neutral`, CSS variables enabled, icon library: `lucide`.
 
-- Prioritize error handling and edge cases:
-  - Use early returns for error conditions
-  - Implement guard clauses to handle preconditions and invalid states early
-  - Use custom error types for consistent error handling
-- Consider implementing Zod for schema validation when handling complex data structures
+### Mandatory Library Choices
 
-### Performance and Optimization
+- **Tables**: Always use TanStack Table
+- **Forms**: Always use TanStack Form
+- **Backend mocking in tests**: Always use Mock Service Worker (MSW)
 
-- Implement dynamic imports for code splitting and optimization
-- Use responsive design with a mobile-first approach
-- Optimize images: use WebP format, include size data, implement lazy loading
-- Follow performance optimization techniques to reduce load times and improve rendering efficiency
+### Testing Architecture
 
-### State Management Recommendations
+- Unit test files: `.test.ts(x)` in `__tests__/` directories adjacent to source
+- E2E test files: `.spec.ts` in `tests/`
+- Custom render in `src/test/test-utils.tsx` wraps components in `BrowserRouter` + `ThemeProvider` and mocks `localStorage`/`matchMedia`
+- `src/test/setup.ts` loads jest-dom matchers globally
 
-For applications requiring complex state management beyond React's built-in state, consider:
+Refer to `.claude/commands/create_unit_tests.md` and `.claude/commands/create_e2e_tests.md` for patterns when writing new tests.
 
-- **Zustand** - Lightweight state management solution
-- **TanStack React Query** - Server state management and data fetching
-- Implement proper data fetching patterns with caching and error handling
+### Environment Variables
 
-### Security and Best Practices
+- `VITE_APP_NAME` — application name (fallback: `"Sample App"`)
+- `VITE_BASE_URL` — base path for sub-path deployments
+- `VITE_USE_HASH_ROUTE` — `true` to use hash-based routing
 
-- Implement proper error handling and user input validation
-- Follow secure coding practices for user data handling
-- Validate all external data sources and user inputs
-- Use TypeScript's strict mode for enhanced type safety
+### Code Formatting
 
-### Documentation Standards
-
-- Provide clear and concise comments for complex logic
-- Use JSDoc comments for functions and components to improve IDE intellisense
-- Document component props and their expected types
-- Include usage examples for complex components
-
-## Code Formatting
-
-This project uses Prettier for code formatting integrated with ESLint. Prettier is configured to:
-
-- Use single quotes
-- Include semicolons
-- Use 2-space indentation
-- Set print width to 80 characters
-- Add trailing commas for ES5 compatibility
-
-You can customize these settings in `.prettierrc.json`.
-
-## The Development Workflow
-
-1. Make code changes according to the plan
-2. Run `npm run format` to format code with Prettier
-3. Run `npm run lint` to check code style (includes Prettier formatting check)
-4. Run `npm run typecheck` to verify TypeScript correctness
-5. Run `npm run test:run` and follow the appropriate rule:
-   a. If in TDD mode (test-driven development): All tests should pass except for tests that were modified or added for the upcoming change.
-   b. If not in TDD mode: All tests should pass.
-6. For E2E testing, run `npm run test:e2e` to ensure application works end-to-end
-7. Iterate on these steps as necessary.
+Prettier config (`.prettierrc.json`): single quotes, semicolons, 2-space indent, 80-char print width, ES5 trailing commas.
