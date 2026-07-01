@@ -1,7 +1,7 @@
 import path from 'path';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
-import { defineConfig } from 'vitest/config';
+import { configDefaults, defineConfig } from 'vitest/config';
 import { loadEnv } from 'vite';
 
 export default defineConfig(({ mode }) => {
@@ -24,6 +24,7 @@ export default defineConfig(({ mode }) => {
         '**/*.test.{js,ts,jsx,tsx}',
         '**/__tests__/**/*.{js,ts,jsx,tsx}',
       ],
+      exclude: [...configDefaults.exclude, '**/.claude/**'],
     },
   };
 });
