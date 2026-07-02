@@ -5,7 +5,7 @@ React + Vite template
 ## Getting Started
 
 ```bash
-npx degit erezcohen/react-vite1 my-project
+npx degit erezcohen/react-vite2 my-project
 cd my-project
 npm install
 npm run dev
